@@ -175,6 +175,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        Barryvdh\DomPDF\ServiceProvider::class,
     ],
 
     /*
@@ -225,7 +226,88 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-
+        'PDF' => Barryvdh\DomPDF\Facade::class,
     ],
 
+    'state_codes' => [
+    
+        'AGU' => '01',
+        
+        'BCN' => '02',
+    
+        'BCS' => '03',
+    
+        'CAM' => '04',
+    
+        'CHP' => '05',
+    
+        'CHH' => '06',
+    
+        'CMX' => '07',
+    
+        'COA' => '08',
+    
+        'COL' => '09',
+    
+        'DUR' => '10',
+    
+        'GUA' => '11',
+    
+        'GRO' => '12',
+    
+        'HID' => '13',
+    
+        'JAL' => '14',
+    
+        'MEX' => '15',
+    
+        'MIC' => '16',
+    
+        'MOR' => '17',
+    
+        'NAY' => '18',
+    
+        'NLE' => '19',
+    
+        'OAX' => '20',
+    
+        'PUE' => '21',
+    
+        'QUE' => '22',
+    
+        'ROO' => '23',
+    
+        'SLP' => '24',
+    
+        'SIN' => '25',
+    
+        'SON' => '26',
+    
+        'TAB' => '27',
+    
+        'TAM' => '28',
+    
+        'TLA' => '29',
+    
+        'VER' => '30',
+    
+        'YUC' => '31',
+    
+        'ZAC' => '32',
+    ],
+
+    'occupation_titles' => [
+
+        '15' => 'Colaborador',
+
+        '20' => 'Observador',
+    
+        '30' => 'Delegado',
+    
+        '35' => 'Sub Delegado',
+    
+        '50' => 'Coordinador',
+    
+        '55' => 'Procurador de fondos',
+    ],
 ];

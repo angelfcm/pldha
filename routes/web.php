@@ -11,9 +11,17 @@
 |
 */
 Route::group(['middleware' => ['auth']], function () {
-    Route::get('/', 'MemberController@index')->name('members');
+    Route::get('/', function() {
+        return redirect('members');
+    });
+    Route::resource('/members', 'MemberController');
+    Route::post('/members/{id}/verify', 'MemberController@updateVerification')->name('members.updateVerification');
 });
-
+Route::get('/members/{id}/credential', 'MemberController@printPdfCredential')->name('members.printPdfCredential');
+Route::get('/members/create', 'MemberController@create')->name('members.create');
+Route::get('/test', function() {
+    return view('members.credential', ['member' => \App\Member::first()]);
+});
 Auth::routes(['register' => false]);
 
 
