@@ -56,33 +56,37 @@ class MemberController extends Controller
      */
     public function store(Request $request)
     {
+        $credential_photo = null;
         if ($request->has('credential_photo')) {
             $credential_photo = asset('storage/'.basename($request->file('credential_photo')->store('public')));
         }
+        $official_id_photo_back = null;
         if ($request->has('official_id_photo_back')) {
             $official_id_photo_back = asset('storage/'.basename($request->file('official_id_photo_back')->store('public')));
-        }
+        } 
+        $official_id_photo_front = null;
         if ($request->has('official_id_photo_front')) {
             $official_id_photo_front = asset('storage/'.basename($request->file('official_id_photo_front')->store('public')));
         }
+        $other_official_id_photo = null;
         if ($request->has('other_official_id_photo')) {
             $other_official_id_photo = asset('storage/'.basename($request->file('other_official_id_photo')->store('public')));
         }
         Member::create([
-            'id_number' => $request->input('id_number'),
-            'fullname' => $request->input('fullname'),
-            'phone_number' => $request->input('phone_number'),
-            'email' => $request->input('email'),
-            'country_abbr' => $request->input('country_abbr'),
-            'state_code' => $request->input('state_code'),
-            'town_code' => $request->input('town_code'),
+            'id_number' => $request->input('id_number', null),
+            'fullname' => $request->input('fullname', null),
+            'phone_number' => $request->input('phone_number', null),
+            'email' => $request->input('email', null),
+            'country_abbr' => $request->input('country_abbr', null),
+            'state_code' => $request->input('state_code', null),
+            'town_code' => $request->input('town_code', null),
             'credential_photo' => $credential_photo,
             'official_id_photo_back' => $official_id_photo_back,
             'official_id_photo_front' => $official_id_photo_front,
             'other_official_id_photo' => $other_official_id_photo,
-            'occupation_code' => $request->input('occupation_code'),
-            'occupation' => $request->input('occupation'),
-            'member_comment' => $request->input('member_comment'),
+            'occupation_code' => $request->input('occupation_code', null),
+            'occupation' => $request->input('occupation', null),
+            'member_comment' => $request->input('member_comment', null),
             'verified' => false,
         ]);
 
@@ -129,9 +133,11 @@ class MemberController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Member $member)
     {
-        //
+        $member->delete();
+
+        return back()->withInput();
     }
 
     public function updateVerification(Request $request, $id)

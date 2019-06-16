@@ -17,7 +17,7 @@
             </div>
 
             <div class="form-group">
-                <label>{{ __('Código de cargo *') }}</label>
+                <label for="occupationCodeSelect">{{ __('Código de cargo *') }}</label>
                 <small id="occupationCodeHelp" class="form-text text-muted">{{ __('15= Observadores & Colaboradores | 30= Delegado | 35= Sub Delegado | 50= Coordinador - Procurador - Otros Cargos') }}</small>
                 <div class="custom-control custom-radio">
                     <input type="radio" id="occupationCodeRadio1" name="occupation_code" class="custom-control-input" aria-describedby="occupationCodeHelp" value="15">
@@ -46,24 +46,20 @@
                 <label>{{ __('País *') }}</label>
                 <div class="custom-control custom-radio">
                     <input type="radio" id="countryAbbrRadio1" name="country_abbr" class="custom-control-input" value="MEX">
-                    <label class="custom-control-label" for="countryAbbrRadio1">15</label>
+                    <label class="custom-control-label" for="countryAbbrRadio1">MEX</label>
                 </div>
                 <div class="custom-control custom-radio">
-                    <input type="radio" id="countryAbbrRadio2" name="country_abbr" class="custom-control-input" value="COL">
-                    <label class="custom-control-label" for="countryAbbrRadio2">30</label>
+                    <input type="radio" id="countryAbbrRadio2" name="country_abbr" class="custom-control-input" value="USA">
+                    <label class="custom-control-label" for="countryAbbrRadio2">USA</label>
                 </div>
                 <div class="custom-control custom-radio">
-                    <input type="radio" id="countryAbbrRadio4" name="country_abbr" class="custom-control-input" value="VEN">
-                    <label class="custom-control-label" for="countryAbbrRadio4">35</label>
-                </div>
-                <div class="custom-control custom-radio">
-                    <input type="radio" id="countryAbbrRadio5" name="country_abbr" class="custom-control-input" value="USA">
-                    <label class="custom-control-label" for="countryAbbrRadio5">50</label>
+                    <input type="radio" id="countryAbbrRadio4" name="country_abbr" class="custom-control-input" value="COL">
+                    <label class="custom-control-label" for="countryAbbrRadio4">COL</label>
                 </div>
                 <div class="custom-control custom-radio">
                     <input type="radio" id="countryAbbrRadio6" name="country_abbr" class="custom-control-input" value="0">
                     <label class="custom-control-label" for="countryAbbrRadio6">Otro:</label>
-                    <input type="number" class="form-control" onkeyup="this.form.countryAbbrRadio6.value = this.value">
+                    <input type="text" class="form-control" onkeyup="this.form.countryAbbrRadio6.value = this.value">
                 </div>
             </div>
             

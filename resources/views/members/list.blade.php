@@ -72,6 +72,7 @@
                             <th scope="col">{{ __('Comentario') }}</th>
                             <th scope="col" class="text-right">{{ __('Credencial') }}</th>
                             <th scope="col" class="text-left">{{ __('Status') }}</th>
+                            <th scope="col" class="text-right">{{ __('Opción') }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -111,8 +112,14 @@
                                             <span class="badge badge-pill badge-danger">No Verificado</span>
                                         @endif
                                     </label>
-                                    
                                 </div>
+                            </td>
+                            <td class="text-right">
+                                <a class="btn btn-danger btn-sm" href="#" onclick="event.preventDefault(); if (confirm('{{ __('¿Eliminar miembro?') }}')) $('#deleteForm{{ $member->id }}').submit();">X</a>
+                                <form action="{{ route('members.destroy', ['member' => $member->id]) }}" class="d-none" method="POST" id="deleteForm{{ $member->id }}">
+                                    @csrf
+                                    @method('DELETE')
+                                </form>
                             </td>
                         </tr>
                         @endforeach;
