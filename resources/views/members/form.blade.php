@@ -17,29 +17,9 @@
             </div>
 
             <div class="form-group">
-                <label for="occupationCodeSelect">{{ __('Código de cargo *') }}</label>
+                <label for="occupationCodeInput">{{ __('Código de cargo *') }}</label>
                 <small id="occupationCodeHelp" class="form-text text-muted">{{ __('15= Observadores & Colaboradores | 30= Delegado | 35= Sub Delegado | 50= Coordinador - Procurador - Otros Cargos') }}</small>
-                <div class="custom-control custom-radio">
-                    <input type="radio" id="occupationCodeRadio1" name="occupation_code" class="custom-control-input" aria-describedby="occupationCodeHelp" value="15">
-                    <label class="custom-control-label" for="occupationCodeRadio1">15</label>
-                </div>
-                <div class="custom-control custom-radio">
-                    <input type="radio" id="occupationCodeRadio2" name="occupation_code" class="custom-control-input" aria-describedby="occupationCodeHelp" value="30">
-                    <label class="custom-control-label" for="occupationCodeRadio2">30</label>
-                </div>
-                <div class="custom-control custom-radio">
-                    <input type="radio" id="occupationCodeRadio3" name="occupation_code" class="custom-control-input" aria-describedby="occupationCodeHelp" value="35">
-                    <label class="custom-control-label" for="occupationCodeRadio3">35</label>
-                </div>
-                <div class="custom-control custom-radio">
-                    <input type="radio" id="occupationCodeRadio4" name="occupation_code" class="custom-control-input" aria-describedby="occupationCodeHelp" value="50">
-                    <label class="custom-control-label" for="occupationCodeRadio4">50</label>
-                </div>
-                <div class="custom-control custom-radio">
-                    <input type="radio" id="occupationCodeRadio5" name="occupation_code" class="custom-control-input" aria-describedby="occupationCodeHelp" value="0">
-                    <label class="custom-control-label" for="occupationCodeRadio5">Otro:</label>
-                    <input type="number" class="form-control" onkeyup="this.form.occupationCodeRadio5.value = this.value">
-                </div>
+                <input type="string" name="occupation_code" id="occupationCodeInput" class="form-control" onkeyup="this.form.occupationCodeRadio5.value = this.value">
             </div>
 
             <div class="form-group">
