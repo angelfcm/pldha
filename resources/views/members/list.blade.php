@@ -115,6 +115,7 @@
                                 </div>
                             </td>
                             <td class="text-right">
+                            <a class="btn btn-secondary btn-sm" href="{{ route('members.edit', ['member' => $member->id]) }}">Editar</a>
                                 <a class="btn btn-danger btn-sm" href="#" onclick="event.preventDefault(); if (confirm('{{ __('¿Eliminar miembro?') }}')) $('#deleteForm{{ $member->id }}').submit();">X</a>
                                 <form action="{{ route('members.destroy', ['member' => $member->id]) }}" class="d-none" method="POST" id="deleteForm{{ $member->id }}">
                                     @csrf

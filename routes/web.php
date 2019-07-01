@@ -16,6 +16,7 @@ Route::group(['middleware' => ['auth']], function () {
     });
     Route::resource('/members', 'MemberController');
     Route::post('/members/{id}/verify', 'MemberController@updateVerification')->name('members.updateVerification');
+    Route::post('/members/upload-image', 'MemberController@uploadImage')->name('members.upload-image');
 });
 Route::get('/members/{id}/credential', 'MemberController@printPdfCredential')->name('members.printPdfCredential');
 Route::get('/members/create', 'MemberController@create')->name('members.create');

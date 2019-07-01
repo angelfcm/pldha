@@ -5,3 +5,6 @@
  */
 
 require('./bootstrap');
+window.Dropzone = require('./dropzone.js');
+
+Dropzone.autoDiscover = false;
