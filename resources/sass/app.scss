@@ -6,3 +6,103 @@
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+
+/**
+* Custom Dropzone styles
+*/
+.custom-dropzone {
+    width: auto;
+    height: auto;
+    .dz-message {   
+        cursor: pointer;
+    }
+    .dz-progress, .dz-message, .dz-error-mark, .dz-success-mark {
+        display: none;
+    }
+    .dz-error-message {
+        line-height: 1;
+    }
+    .dz-success-mark, .dz-error-mark {
+        i {
+            font-size: 1.5em;
+        }
+    }
+    .dz-remove-btn {
+        z-index: 10;
+        display: none;
+    }
+    .dz-filename, .dz-size {
+        display: none;
+    } 
+    .dz-details * {
+        z-index: 10;
+    }
+    .dz-details img  {
+        max-height: 100px;
+        max-width: 100%;
+        transition: 0.2s filter ease-in;
+        -webkit-transition: 0.2s -webkit-filter ease-in;
+    }
+    .dz-details {
+        font-size: 0.8em;
+        background: #f5f5f5;
+        border-radius: 5px;
+    }
+    .dz-preview:hover {
+        .dz-filename, .dz-size {
+            display: block;
+        }
+        img {
+            -webkit-filter: blur(8px);
+            filter: blur(8px);
+        }
+    }
+    &.empty {
+        .dz-message {
+            display: block;
+        }
+    }
+    &.uploading {
+        .dz-progress {
+            display: flex;
+        }
+        .dz-preview img {
+            -webkit-filter: blur(8px);
+            filter: blur(8px);
+        }
+    }
+    &.success {
+        .dz-success-mark {
+            display: block;
+        }
+        .dz-remove-btn {
+            display: inline-block;
+        }
+    }
+    &.success-before {
+        .dz-filename, .dz-size {
+            display: none !important;
+        }
+        .dz-remove-btn {
+            display: inline-block;
+        }
+    }
+    &.error {
+        .dz-error-mark {
+            display: block;
+        }
+        .dz-remove-btn {
+            display: inline-block;
+        }
+    }
+}
+
+.custom-dropzone {
+    border: 1px dashed #aaa;
+    cursor: pointer;
+    background: $white;
+
+    .dz-details {
+        min-height: 100px;
+    }
+}

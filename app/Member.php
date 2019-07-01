@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Member extends Model
 {
     protected $fillable = [
+        'folio',
         'id_number',
         'fullname',
         'phone_number',
@@ -42,24 +43,6 @@ class Member extends Model
         'member_comment' => 'string',
         'verified' => 'boolean'
     ];
-
-    /** Asigna el folio dado el formato correspondiente tomando los valores de algunos de los atributos. */ 
-    public function getCalculatedFolio() 
-    {
-        // Calcula el id que se le asignará y se rellena con ceros.
-        $nextId = self::max('id') + 1;
-        $zeroFilledNextId = str_pad($nextId, 4, "0", STR_PAD_LEFT);
-        $state_abbr = 'AAA';
-        foreach(config('app.state_codes') as $abbr => $code) {
-            if ($code == $this->state_code) {
-                $state_abbr = $abbr;
-                break;
-            }
-        }
-        $folio = $this->occupation_code . $this->country_abbr . $state_abbr . $this->town_code . $zeroFilledNextId;
-        
-        return $folio;
-    }
 
     public function getOccupationTitleAttribute()
     {
