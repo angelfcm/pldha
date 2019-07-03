@@ -9,36 +9,51 @@
         <p class="text-danger">
             {{ __('*Obligatorio') }}
         </p>
-        <form action="{{ $member->exists ? route('members.update', ['member' => $member->id]) : route('members.store') }}" method="POST" enctype="multipart/form-data">
+        <form novalidate action="{{ $member->exists ? route('members.update', ['member' => $member->id]) : route('members.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             @if ($member->exists)
                 @method('PUT')
             @endif
             <div class="form-group">
                 <label for="fullnameInput">{{ __('Nombre(s) Completo *') }}</label>
-                <input type="text" class="form-control" name="fullname" id="fullnameInput" placeholder="" value="{{ $member->fullname }}">
+                <input type="text" class="form-control{{ $errors->has('fullname') ? ' is-invalid' : '' }}" name="fullname" id="fullnameInput" placeholder="" value="{{ $member->fullname }}" required>
+                @if ($errors->has('fullname'))
+                    @include('utils.components.input-errors', ['field' => 'fullname'])
+                @endif
             </div>
 
             <div class="form-group">
                 <label for="occupationCodeInput">{{ __('Código de cargo *') }}</label>
                 <small id="occupationCodeHelp" class="form-text text-muted">{{ __('15= Observadores & Colaboradores | 30= Delegado | 35= Sub Delegado | 50= Coordinador - Procurador - Otros Cargos') }}</small>
-                <input type="string" name="occupation_code" id="occupationCodeInput" class="form-control" value="{{ $member->occupation_code }}">
+                <input type="string" name="occupation_code" id="occupationCodeInput" class="form-control{{ $errors->has('occupation_code') ? ' is-invalid' : '' }}" value="{{ $member->occupation_code }}">
+                @if ($errors->has('occupation_code'))
+                    @include('utils.components.input-errors', ['field' => 'occupation_code'])
+                @endif
             </div>
 
             <div class="form-group">
                 <label for="countryAbbrRadio6">{{ __('País *') }}</label>
                 <small id="occupationCodeHelp" class="form-text text-muted">{{ __('MEX, USA, COL, ...') }}</small>
-                <input type="string" name="country_abbr" id="countryAbbrRadio6" class="form-control" value="{{ $member->country_abbr }}">
+                <input type="string" name="country_abbr" id="countryAbbrRadio6" class="form-control{{ $errors->has('country_abbr') ? ' is-invalid' : '' }}" value="{{ $member->country_abbr }}">
+                @if ($errors->has('country_abbr'))
+                    @include('utils.components.input-errors', ['field' => 'country_abbr'])
+                @endif
             </div>
             
             <div class="form-group">
                 <label for="stateCodeInput">{{ __('Código de estado *') }}</label>
-                <input type="number" class="form-control" name="state_code" id="stateCodeInput" placeholder="" value="{{ $member->state_code }}">
+                <input type="number" class="form-control{{ $errors->has('state_code') ? ' is-invalid' : '' }}" name="state_code" id="stateCodeInput" placeholder="" value="{{ $member->state_code }}">
+                @if ($errors->has('state_code'))
+                    @include('utils.components.input-errors', ['field' => 'state_code'])
+                @endif
             </div>
 
             <div class="form-group">
                 <label for="townCodeInput">{{ __('Código de municipio *') }}</label>
-                <input type="number" class="form-control" name="town_code" id="townCodeInput" placeholder="" value="{{ $member->town_code }}">
+                <input type="number" class="form-control{{ $errors->has('town_code') ? ' is-invalid' : '' }}" name="town_code" id="townCodeInput" placeholder="" value="{{ $member->town_code }}">
+                @if ($errors->has('town_code'))
+                    @include('utils.components.input-errors', ['field' => 'town_code'])
+                @endif
             </div>
 
             @include('components.custom-dropzone', ['url' => route('members.upload-image'), 'field' => 'official_id_photo_back', 'inputName' => 'official_id_photo_back', 'id' => 'official_id_photo_back', 'title' => __('Foto identificación (FRENTE) *'), 'value' => $member->official_id_photo_back ])
@@ -51,28 +66,43 @@
 
             <div class="form-group">
                 <label for="memberCommentInput">{{ __('Comentario para PLDHA *') }}</label>
-                <textarea class="form-control" name="member_comment" id="memberCommentInput" placeholder="" aria-describedby="memberCommentHelp">{{ $member->member_comment }}</textarea>
+                <textarea class="form-control{{ $errors->has('member_comment') ? ' is-invalid' : '' }}" name="member_comment" id="memberCommentInput" placeholder="" aria-describedby="memberCommentHelp">{{ $member->member_comment }}</textarea>
                 <small id="memberCommentHelp" class="form-text text-muted">{{ __('Escribe alguna razón por la cual quieres pertenecer a PLDHA México') }}</small>
+                @if ($errors->has('member_comment'))
+                    @include('utils.components.input-errors', ['field' => 'member_comment'])
+                @endif
             </div>
 
             <div class="form-group">
                 <label for="idNumberInput">{{ __('Número de identificación') }}</label>
-                <input type="number" class="form-control" name="id_number" id="idNumberInput" placeholder="" value="{{ $member->id_number }}">
+                <input type="number" class="form-control{{ $errors->has('id_number') ? ' is-invalid' : '' }}" name="id_number" id="idNumberInput" placeholder="" value="{{ $member->id_number }}">
+                @if ($errors->has('id_number'))
+                    @include('utils.components.input-errors', ['field' => 'id_number'])
+                @endif
             </div>
 
             <div class="form-group">
                 <label for="phoneNumberInput">{{ __('Teléfono de contacto o WhatsApp') }}</label>
-                <input type="tel" class="form-control" name="phone_number" id="phoneNumberInput" placeholder="" value="{{ $member->phone_number }}">
+                <input type="tel" class="form-control{{ $errors->has('phone_number') ? ' is-invalid' : '' }}" name="phone_number" id="phoneNumberInput" placeholder="" value="{{ $member->phone_number }}">
+                @if ($errors->has('phone_number'))
+                    @include('utils.components.input-errors', ['field' => 'phone_number'])
+                @endif
             </div>
 
             <div class="form-group">
                 <label for="occupationInput">{{ __('Ocupación') }}</label>
-                <input type="text" class="form-control" name="occupation" id="occupationInput" placeholder="" value="{{ $member->occupation }}">
+                <input type="text" class="form-control{{ $errors->has('occupation') ? ' is-invalid' : '' }}" name="occupation" id="occupationInput" placeholder="" value="{{ $member->occupation }}">
+                @if ($errors->has('occupation'))
+                    @include('utils.components.input-errors', ['field' => 'occupation'])
+                @endif
             </div>
 
             <div class="form-group">
                 <label for="emailInput">{{ __('Correo Electrónico') }}</label>
-                <input type="email" class="form-control" name="email" id="emailInput" placeholder="" value="{{ $member->email }}">
+                <input type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" id="emailInput" placeholder="" value="{{ $member->email }}">
+                @if ($errors->has('email'))
+                    @include('utils.components.input-errors', ['field' => 'email'])
+                @endif
             </div>
 
             <button type="submit" class="btn btn-primary btn-lg">ENVIAR</button>

@@ -57,13 +57,13 @@ class MemberController extends Controller
             'phone_number' => old('phone_number', ''),
             'email' => old('email', ''),
             'country_abbr' => old('country_abbr', ''),
-            'state_code' => old('state_code', ''),
-            'town_code' => old('town_code', ''),   
+            'state_code' => old('state_code', null),
+            'town_code' => old('town_code', null),   
             'credential_photo' => old('credential_photo', ''),
             'official_id_photo_back' => old('official_id_photo_back', ''),
             'official_id_photo_front' => old('official_id_photo_front', ''),
             'other_official_id_photo' => old('other_official_id_photo', ''),
-            'occupation_code' => old('occupation_code', ''),
+            'occupation_code' => old('occupation_code', null),
             'occupation' => old('occupation', ''),
             'member_comment' => old('member_comment', ''),
             'verified' => old('verified', false)
@@ -235,7 +235,15 @@ class MemberController extends Controller
     public function uploadImage(Request $request)
     {
         $path = Storage::putFile(static::TMP_IMAGES_FOLDER, $request->file('image'));
+        $fullPath = Storage::path($path);
         $url = $this->localPathToPublicURL($path);
+        $image = \Image::make($fullPath);
+
+        if ($image->width() > $image->height()) {
+            $image->widen(640)->save($fullPath);
+        } else {
+            $image->heighten(640)->save($fullPath);
+        }
         
         return response()->json(compact('url'));
     }

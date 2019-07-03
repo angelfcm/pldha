@@ -87,12 +87,7 @@
             </div>
             @endif
 
-            @if ($errors->any())
-            <div class="alert alert-danger">
-                <button type="button" class="close" data-dismiss="alert">×</button>	
-                Revisa los errores a continuación.
-            </div>
-            @endif
+            @include('utils.components.error-messages')
         </div>
 
         <main class="py-4">
