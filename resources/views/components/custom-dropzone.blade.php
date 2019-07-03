@@ -1,11 +1,17 @@
-<div class="form-group{{ $errors->has($field) ? ' has-error has-danger has-feedback' : '' }}">
+<div class="form-group">
     <label for="{{ $id }}">{{ $title }}</label>
     <div class="custom-dropzone dropzone dz-clickable p-3 text-center d-flex justify-content-center align-items-center" id="{{ $id }}" data-url="{{ $url }}">
         <input type="hidden" name="{{ $inputName }}" value="{{ $value }}">
-        <div class="dz-default dz-message">
+        <div class="dz-default dz-message w-100">
             <button type="button" class="btn btn-info btn-sm">{{ __('Elige una imagen') }}</button>
             @if ($errors->has($field))
-                <div class="text-left mt-2">@include('utils.fragments.input-errors', ['field' => $field])</div>
+                <div class="text-left mt-2 text-danger">
+                    <ul class="mb-0 small">
+                        @foreach($errors->get($field) as $message)
+                            <li>{{ $message }}</li>
+                        @endforeach
+                    </ul>
+                </div>
             @endif
         </div>
         <div class="preview-template">
