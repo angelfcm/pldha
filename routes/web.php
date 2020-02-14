@@ -24,5 +24,3 @@ Route::get('/test', function() {
     return view('members.credential', ['member' => \App\Member::first()]);
 });
 Auth::routes(['register' => false]);
-
-

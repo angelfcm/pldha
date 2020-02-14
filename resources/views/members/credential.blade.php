@@ -41,7 +41,6 @@
                 height: 25.5mm;
                 left: 18mm;
                 top: 13.6mm;
-                background: red;
                 position: absolute;
                 display: block;
             }
@@ -92,14 +91,14 @@
     </head>
     <body>
         <div class="credential-container">
-            <img class="credential-photo" src="{{ $member->credential_photo }}">
-            <img class="credential-template-image" src="{{ asset('img/pldha-credential-front.png') }}">
+            <img class="credential-photo" src="{{ preg_replace('/^\//', '', parse_url($member->credential_photo, PHP_URL_PATH)) }}">
+            <img class="credential-template-image" src="img/pldha-credential-front.png">
             <div class="credential-folio">{{ $member->folio }}</div>
             <div class="credential-occupation">{{ $member->occupation }}</div>
             <div class="credential-fullname">{{ $member->fullname }}</div>
-        </div><!--
+        </div>{{--
         <div class="credential-container">
             <img class="credential-template-image" src="{{ asset('img/pldha-credential-back.png') }}">
-        </div>-->
+        </div>--}}
     </body>
 </html>

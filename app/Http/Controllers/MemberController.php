@@ -27,7 +27,6 @@ class MemberController extends Controller
         $members = new Member;
         if (!empty($folio)) {
             $members = $members->where('folio', $folio);
-            dd($folio);
         }
         else {
             if ($hide_verified) {
