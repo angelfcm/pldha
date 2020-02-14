@@ -10,14 +10,14 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="{{ asset(mix('js/app.js')) }}"></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset(mix('css/app.css')) }}" rel="stylesheet">
 </head>
 <body>
     <div id="app">
@@ -87,17 +87,15 @@
             </div>
             @endif
 
-            @if ($errors->any())
-            <div class="alert alert-danger">
-                <button type="button" class="close" data-dismiss="alert">×</button>	
-                Revisa los errores a continuación.
-            </div>
-            @endif
+            @include('utils.components.error-messages')
         </div>
 
         <main class="py-4">
             @yield('content')
         </main>
     </div>
+    
+    @stack('js')
+
 </body>
 </html>

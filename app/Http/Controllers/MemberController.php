@@ -4,10 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Member;
+use App\Http\Requests\MemberRequest;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Storage;
 
 class MemberController extends Controller
 {
+    const TMP_IMAGES_FOLDER = 'public/tmp/member-images';
+    const STATIC_IMAGES_FOLDER = 'public/member-images';
+
     /**
      * Display a listing of the resource.
      *
@@ -45,7 +50,26 @@ class MemberController extends Controller
      */
     public function create()
     {
-        return view('members.form');
+        $member = new Member([
+            'folio' => old('folio', ''),
+            'id_number' => old('id_number', ''),
+            'fullname' => old('fullname', ''),
+            'phone_number' => old('phone_number', ''),
+            'email' => old('email', ''),
+            'country_abbr' => old('country_abbr', ''),
+            'state_code' => old('state_code', null),
+            'town_code' => old('town_code', null),   
+            'credential_photo' => old('credential_photo', ''),
+            'official_id_photo_back' => old('official_id_photo_back', ''),
+            'official_id_photo_front' => old('official_id_photo_front', ''),
+            'other_official_id_photo' => old('other_official_id_photo', ''),
+            'occupation_code' => old('occupation_code', null),
+            'occupation' => old('occupation', ''),
+            'member_comment' => old('member_comment', ''),
+            'verified' => old('verified', false)
+        ]);
+
+        return view('members.form', compact('member'));
     }
 
     /**
@@ -54,41 +78,17 @@ class MemberController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(MemberRequest $request)
     {
-        $credential_photo = null;
-        if ($request->has('credential_photo')) {
-            $credential_photo = asset('storage/'.basename($request->file('credential_photo')->store('public')));
-        }
-        $official_id_photo_back = null;
-        if ($request->has('official_id_photo_back')) {
-            $official_id_photo_back = asset('storage/'.basename($request->file('official_id_photo_back')->store('public')));
-        } 
-        $official_id_photo_front = null;
-        if ($request->has('official_id_photo_front')) {
-            $official_id_photo_front = asset('storage/'.basename($request->file('official_id_photo_front')->store('public')));
-        }
-        $other_official_id_photo = null;
-        if ($request->has('other_official_id_photo')) {
-            $other_official_id_photo = asset('storage/'.basename($request->file('other_official_id_photo')->store('public')));
-        }
-        Member::create([
-            'id_number' => $request->input('id_number', null),
-            'fullname' => $request->input('fullname', null),
-            'phone_number' => $request->input('phone_number', null),
-            'email' => $request->input('email', null),
-            'country_abbr' => $request->input('country_abbr', null),
-            'state_code' => $request->input('state_code', null),
-            'town_code' => $request->input('town_code', null),
-            'credential_photo' => $credential_photo,
-            'official_id_photo_back' => $official_id_photo_back,
-            'official_id_photo_front' => $official_id_photo_front,
-            'other_official_id_photo' => $other_official_id_photo,
-            'occupation_code' => $request->input('occupation_code', null),
-            'occupation' => $request->input('occupation', null),
-            'member_comment' => $request->input('member_comment', null),
-            'verified' => false,
-        ]);
+        $member = new Member($request->all());
+
+        $this->saveImage($member, 'credential_photo');
+        $this->saveImage($member, 'official_id_photo_back');
+        $this->saveImage($member, 'official_id_photo_front');
+        $this->saveImage($member, 'other_official_id_photo');
+
+        $member->save();
+        $this->setFolio($member);
 
         return redirect()->route('members.index')->with('success','¡Miembro creado satisfactoriamente!');
     }
@@ -107,24 +107,50 @@ class MemberController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  Member  $member
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Member $member)
     {
-        //
+        $member->folio = old('folio', $member->folio);
+        $member->id_number = old('id_number', $member->id_number);
+        $member->fullname = old('fullname', $member->fullname);
+        $member->phone_number = old('phone_number', $member->phone_number);
+        $member->email = old('email', $member->email);
+        $member->country_abbr = old('country_abbr', $member->country_abbr);
+        $member->state_code = old('state_code', $member->state_code);
+        $member->town_code = old('town_code', $member->town_code);
+        $member->credential_photo = old('credential_photo', $member->credential_photo);
+        $member->official_id_photo_back = old('official_id_photo_back', $member->official_id_photo_back);
+        $member->official_id_photo_front = old('official_id_photo_front', $member->official_id_photo_front);
+        $member->other_official_id_photo = old('other_official_id_photo', $member->other_official_id_photo);
+        $member->occupation_code = old('occupation_code', $member->occupation_code);
+        $member->occupation = old('occupation', $member->occupation);
+        $member->member_comment = old('member_comment', $member->member_comment);
+        $member->verified = old('verified', $member->verified);
+
+        return view('members.form', compact('member'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  Member  $member
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(MemberRequest $request, Member $member)
     {
-        //
+        $member->fill($request->all());
+
+        $this->saveImage($member, 'credential_photo');
+        $this->saveImage($member, 'official_id_photo_back');
+        $this->saveImage($member, 'official_id_photo_front');
+        $this->saveImage($member, 'other_official_id_photo');
+
+        $member->save();
+
+        return redirect()->route('members.index')->with('success','¡Miembro actualizado satisfactoriamente!');
     }
 
     /**
@@ -137,7 +163,16 @@ class MemberController extends Controller
     {
         $member->delete();
 
-        return back()->withInput();
+        $imageURLS = ['credential_photo', 'official_id_photo_back', 'official_id_photo_front', 'other_official_id_photo'];
+        
+        foreach ($imageURLS as $url) {
+            $path = $this->publicURLToLocalPath($url);
+            if (Storage::exists($path)) {
+                Storage::delete($path);
+            }
+        }
+
+        return back()->withInput()->with('success','¡Miembro eliminado satisfactoriamente!');
     }
 
     public function updateVerification(Request $request, $id)
@@ -170,5 +205,81 @@ class MemberController extends Controller
         else {
             return view('members.invalid');
         }
+    }
+
+    /** 
+     * Establece el folio dado el formato correspondiente tomando los valores de algunos de los atributos. 
+     */ 
+    public function setFolio(Member $member) 
+    {
+        if (!$member->exists)
+            return false;
+
+        // Coloca id que se le asignará y se rellena con ceros.
+        $zeroFilledNextId = str_pad($member->id, 4, "0", STR_PAD_LEFT);
+        $state_abbr = 'AAA';
+        foreach(config('app.state_codes') as $abbr => $code) {
+            if ($code == $member->state_code) {
+                $state_abbr = $abbr;
+                break;
+            }
+        }
+        $folio = $member->occupation_code . $member->country_abbr . $state_abbr . $member->town_code . $zeroFilledNextId;
+        
+        $member->folio = $folio;
+        $member->save();
+
+        return true;
+    }
+
+    public function uploadImage(Request $request)
+    {
+        $path = Storage::putFile(static::TMP_IMAGES_FOLDER, $request->file('image'));
+        $fullPath = Storage::path($path);
+        $url = $this->localPathToPublicURL($path);
+        $image = \Image::make($fullPath);
+
+        if ($image->width() > $image->height()) {
+            $image->widen(640)->save($fullPath);
+        } else {
+            $image->heighten(640)->save($fullPath);
+        }
+        
+        return response()->json(compact('url'));
+    }
+
+    private function saveImage($res, $imageName) 
+    {
+        $imagePath = $this->publicURLToLocalPath($res[$imageName]);
+        $oldImagePath = null;
+        $freshsub = $res->fresh();
+        if ($freshsub != null) {
+            $oldImagePath = $this->publicURLToLocalPath($freshsub[$imageName]);
+        }
+        if ($oldImagePath != $imagePath && Storage::exists($oldImagePath)) {
+            Storage::delete($oldImagePath);
+        }
+
+        $publicURL = null;
+
+        if ($imagePath != null) {
+            $publicURL =  $res[$imageName];
+        }
+
+        if (Storage::exists($imagePath) && dirname($imagePath) == static::TMP_IMAGES_FOLDER) {
+            $newPath = static::STATIC_IMAGES_FOLDER . '/' . basename($imagePath);
+            Storage::move($imagePath, $newPath);
+            $publicURL = $this->localPathToPublicURL($newPath);
+        } 
+
+        $res[$imageName] = $publicURL;
+    }
+
+    private function publicURLToLocalPath($url) {
+        return preg_replace(['/https?:\/\/.+?storage\//i'], ['public/'], $url);
+    }
+
+    private function localPathToPublicURL($path) {
+        return asset(Storage::url($path));
     }
 }

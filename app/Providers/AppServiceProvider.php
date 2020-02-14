@@ -23,8 +23,5 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        \App\Member::saving(function ($member) {
-            $member->folio = $member->getCalculatedFolio();
-        });
     }
 }
