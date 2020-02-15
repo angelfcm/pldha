@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <title>{{ "credencial-{$member->folio}.pdf" }}</title>
         <style>
             * {
                 margin: 0;
@@ -8,6 +9,11 @@
             }
             @page {
                 margin: 0;
+                size: 5.4cm 8.6cm;
+                position: relative;
+            }
+            .container {
+                position: absolute;
             }
             html {
                 margin: 0;
@@ -76,11 +82,11 @@
                 text-transform: uppercase;
             }
             .credential-fullname {
-                width: 25mm;
+                width: 32mm;
                 height: 11mm;
                 position: absolute;
-                left: 1.89cm;
-                top: 4.47cm;
+                left: 15.5mm;
+                top: 4.15cm;
                 z-index: 200;
                 text-align: center;
                 font-family: Arial, Helvetica, sans-serif;
@@ -90,15 +96,20 @@
         </style>
     </head>
     <body>
-        <div class="credential-container">
-            <img class="credential-photo" src="{{ preg_replace('/^\//', '', parse_url($member->credential_photo, PHP_URL_PATH)) }}">
-            <img class="credential-template-image" src="img/pldha-credential-front.png">
-            <div class="credential-folio">{{ $member->folio }}</div>
-            <div class="credential-occupation">{{ $member->occupation }}</div>
-            <div class="credential-fullname">{{ $member->fullname }}</div>
-        </div>{{--
-        <div class="credential-container">
-            <img class="credential-template-image" src="{{ asset('img/pldha-credential-back.png') }}">
-        </div>--}}
+        <div class="container">
+            <div class="credential-container">
+                <img class="credential-photo" src="{{ preg_replace('/^\//', '', parse_url($member->credential_photo, PHP_URL_PATH)) }}">
+                <img class="credential-template-image" src="img/pldha-credential-front.png">
+                <div class="credential-folio">{{ $member->folio }}</div>
+                <div class="credential-occupation">{{ $member->occupation }}</div>
+                <div class="credential-fullname">{{ $member->fullname }}</div>
+            </div>
+        </div>
+        <hr />
+        <div class="container">
+            <div class="credential-container">
+                <img class="credential-template-image" src="img/pldha-credential-back.png">
+            </div>
+        </div>
     </body>
 </html>

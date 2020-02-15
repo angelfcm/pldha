@@ -18,7 +18,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/members/{id}/verify', 'MemberController@updateVerification')->name('members.updateVerification');
     Route::post('/members/upload-image', 'MemberController@uploadImage')->name('members.upload-image');
 });
-Route::get('/members/{id}/credential', 'MemberController@printPdfCredential')->name('members.printPdfCredential');
+Route::get('/credencial-{folio}.pdf', 'MemberController@printPdfCredential')->name('members.printPdfCredential');
 Route::get('/members/create', 'MemberController@create')->name('members.create');
 Route::get('/test', function() {
     return view('members.credential', ['member' => \App\Member::first()]);

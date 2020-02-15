@@ -62,10 +62,10 @@
 
             @include('components.custom-dropzone', ['url' => route('members.upload-image'), 'field' => 'credential_photo', 'inputName' => 'credential_photo', 'id' => 'credential_photo', 'title' => __('Foto para credencial *'), 'value' => $member->credential_photo ])
 
-            @include('components.custom-dropzone', ['url' => route('members.upload-image'), 'field' => 'other_official_id_photo', 'inputName' => 'other_official_id_photo', 'id' => 'other_official_id_photo', 'title' => __('Otra foto (Pasaporte) *'), 'value' => $member->other_official_id_photo ])
+            @include('components.custom-dropzone', ['url' => route('members.upload-image'), 'field' => 'other_official_id_photo', 'inputName' => 'other_official_id_photo', 'id' => 'other_official_id_photo', 'title' => __('Otra foto (Pasaporte)'), 'value' => $member->other_official_id_photo ])
 
             <div class="form-group">
-                <label for="memberCommentInput">{{ __('Comentario para PLDHA *') }}</label>
+                <label for="memberCommentInput">{{ __('Comentario para PLDHA') }}</label>
                 <textarea class="form-control{{ $errors->has('member_comment') ? ' is-invalid' : '' }}" name="member_comment" id="memberCommentInput" placeholder="" aria-describedby="memberCommentHelp">{{ $member->member_comment }}</textarea>
                 <small id="memberCommentHelp" class="form-text text-muted">{{ __('Escribe alguna razón por la cual quieres pertenecer a PLDHA México') }}</small>
                 @if ($errors->has('member_comment'))

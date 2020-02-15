@@ -95,10 +95,10 @@
                             <td class="text-right">
                                 <div class="row justify-content-center">
                                     <div class="col col-auto">
-                                        <a class="btn btn-primary btn-sm" href="{{ route('members.printPdfCredential', ['id' => $member->id]) }}" target="_blank">Abrir</a>
+                                        <a class="btn btn-primary btn-sm" href="{{ route('members.printPdfCredential', $member->folio) }}" target="_blank">Abrir</a>
                                     </div>
                                     <div class="col col-auto mt-2">
-                                        <button class="btn btn-secondary btn-sm" onclick="copyCredentialLink({{ $member->id }})">NFC</button>
+                                        <button class="btn btn-secondary btn-sm" onclick="copyCredentialLink('{{ $member->folio }}')">NFC</button>
                                     </div>
                                 </div>
                             </td>
@@ -185,9 +185,9 @@
         }
     }
 
-    function copyCredentialLink(memberId) 
+    function copyCredentialLink(folio) 
     {
-        $('#credentialLinkModalInput').val('{{ config("app.url") }}' + '/members/' + memberId + '/credential');
+        $('#credentialLinkModalInput').val('{{ config("app.url") }}' + '/credencial-' + folio + '.pdf');
         $('#credentialLinkModal').modal('show');
     }
 </script>

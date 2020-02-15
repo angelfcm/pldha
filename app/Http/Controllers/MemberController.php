@@ -188,17 +188,12 @@ class MemberController extends Controller
         return response()->json(['status' => 'OK']);
     }
 
-    public function printPdfCredential($id) 
+    public function printPdfCredential($folio) 
     {
-        $member = Member::find($id);
-        if (!$member) {
-            abort(404);
-        }
-
+        $member = Member::whereFolio($folio)->firstOrFail();
         if ($member->verified) {
             $pdf = \App::make('dompdf.wrapper');
-            $pdf->loadView('members.credential', array('member' => $member))
-                ->setPaper('letter', 'portrait');
+            $pdf->loadView('members.credential', array('member' => $member));
             return $pdf->stream();
         }
         else {

@@ -24,7 +24,7 @@ class MemberRequest extends FormRequest
     public function rules()
     {
         return [
-            'id_number' => 'required|integer',
+            'id_number' => 'nullable|integer',
             'fullname' => 'required|string',
             'phone_number' => 'required',
             'email' => 'required|email',
