@@ -15,11 +15,11 @@ class CreateMembersTable extends Migration
     {
         Schema::create('members', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('folio')->nullable(true)->default(null)->unique();
+            $table->string('folio', 100)->nullable(true)->default(null)->unique();
             $table->string('id_number')->nullable(true)->default(null)->unique();
             $table->string('fullname')->nullable(true)->default(null);
             $table->string('phone_number')->nullable(true)->default(null);
-            $table->string('email')->nullable(true)->default(null);
+            $table->string('email', 100)->nullable(true)->default(null);
             $table->string('country_abbr', 4)->nullable(true)->default(null);
             $table->unsignedTinyInteger('state_code')->nullable(true)->default(null);
             $table->unsignedSmallInteger('town_code')->nullable(true)->default(null);
